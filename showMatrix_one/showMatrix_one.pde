@@ -7,7 +7,7 @@ HashMap<Integer, Node> nodes;
 float latStart = 51.475;
 float latEnd = 51.55;
 float lonStart = -0.22;
-float lonEnd = -0.05;
+float lonEnd = 0.05;
 
 float maxNet = 3000;
 float maxComm = 1.14;
@@ -29,10 +29,16 @@ color waterColor = color(100);
 int alphaValue = 100;
 float fixedPPK = 80;
 
+//maximum value of alpha for connecting lines
+float maxAlphaEdge = 100;
+
 void setup()
 {
-  network = matrixReader("network_" + city + ".csv");
-  //comm = matrixReader("Gall.csv");
+  size(1000,600);
+  surface.setResizable(true);
+  
+  //network = matrixReader("network_" + city + ".csv");
+  network = matrixReader("rawdata_" + city + ".csv");
   nodes = loadNodes("nodes_" + city + ".csv");
   
   float pdx = 6378*cos(0.5*(latEnd+latStart)*PI/180)*(lonEnd-lonStart)*PI/180;
@@ -55,7 +61,9 @@ void setup()
 
 
   //size(int(xw), int(yw));  
-  size(1000,600);
+  surface.setSize(int(xw), int(yw));
+  surface.setResizable(false);
+  
   for(Node n:nodes.values())
   {
       n.toScreen();

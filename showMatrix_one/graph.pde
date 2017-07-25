@@ -12,7 +12,7 @@ void net(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float ma
               {
                     if(net.get(I).get(J)>mini && net.get(I).get(J)<=maxi)
                     {
-                        stroke(255, 255, 255, 50*(net.get(I).get(J)-mini)/(maxi-mini));
+                        stroke(255, 255, 255, maxAlphaEdge*(net.get(I).get(J)-mini)/(maxi-mini));
                         line(snode.px, snode.py, nodes.get(J).px, nodes.get(J).py);
                     }
               }
@@ -55,18 +55,19 @@ void dir(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float ma
                                   //edge weight
                                   float e = net.get(I).get(J);
                                   
+                                  strokeWeight(1+10*abs(e)/ma);
                                   if(e>0)
                                   {
-                                        stroke(0, 0, 255, 255*e/ma);
+                                        stroke(0, 0, 255, maxAlphaEdge*e/ma);
                                         //stroke(0, 0, 255, 25/e);
                                   }
                                   else
                                   {
-                                        stroke(255, 0, 0, -255*e/ma);
+                                        stroke(255, 0, 0, -maxAlphaEdge*e/ma);
                                         //stroke(255, 0, 0, 100/e);
                                         //stroke(0,0,0,0);
                                   }
-                                  strokeWeight(1+10*abs(e)/ma);
+                                  
                                   
                                   float f = 10;
                                   bezier(0, 0, d, f, d, f/4, d, 0);
@@ -81,25 +82,3 @@ void dir(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float ma
     popMatrix();
     println("drawn");
 }
-
-//void drawScale()
-//{
-//    int endX = width - 20;
-//    int endY = height - 20;
-//    int scaleWidth = int(ppk);
-//    int startX = endX - (5*scaleWidth);
-//    stroke(0);
-//    line(startX, endY, endX, endY);
-//    line(startX, endY, startX, endY - 10);
-//    line(endX, endY, endX, endY - 10);
-//    for(int i = 1; i<5; i++)
-//    {
-//        line(startX + (scaleWidth*i), endY, startX + (scaleWidth*i), endY + 5);
-//    }
-//    fill(0);
-//    text("0", startX - 4, endY -11);
-//    text("5km", endX - 10, endY - 11);
-//    
-//}
-
-
