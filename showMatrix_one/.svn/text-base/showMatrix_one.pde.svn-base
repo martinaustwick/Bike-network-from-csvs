@@ -1,0 +1,69 @@
+import processing.opengl.*;
+
+HashMap<Integer,HashMap<Integer, Float>> network, comm;
+HashMap<Integer, Node> nodes;
+
+String fileName = "DGall.csv";
+float latStart = 51.475;
+float latEnd = 51.55;
+float lonStart = -0.22;
+float lonEnd = -0.05;
+
+float maxNet = 3000;
+float maxComm = 1.14;
+float minComm = 0.001;
+float minNet = 0.5;
+
+maxMin p1, p2;
+
+void setup()
+{
+  size(1000, 750, OPENGL);  
+
+  network = matrixReader("network_minnea.csv");
+  //comm = matrixReader("Gall.csv");
+  nodes = loadNodes("nodes_minnea.csv");
+  //noLoop();
+
+//  p2 =  new maxMin(width-50, 0, 50, height);
+//  p2.setup(minComm, maxComm);
+
+  p1 =  new maxMin((width)-50, 0, 50, height);
+  p1.setup(minNet, maxNet);
+}
+
+void draw()
+{
+  background(0);
+  dir(network, 0, 0, maxNet, minNet);
+  //net(comm, width/2, 0, maxComm, minComm);
+  p1.display();
+  //p2.display();
+}
+
+void mouseDragged()
+{
+
+  if(p1.isOver(mouseX, mouseY)) {
+    p1.drag();
+    minNet = p1.minv;
+    maxNet = p1.maxv;
+  }
+
+//  if(p2.isOver(mouseX, mouseY)) {
+//    p2.drag();
+//    minComm = p2.minv;
+//    maxComm = p2.maxv;
+//  }
+}
+
+void keyPressed()
+{
+  if(key=='f') saveFrame("images/" + frameCount + ".png");
+}
+
+
+
+
+
+

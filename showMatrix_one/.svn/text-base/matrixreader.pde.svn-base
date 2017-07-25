@@ -1,0 +1,92 @@
+HashMap<Integer,HashMap<Integer, Float>> matrixReader(String fn)
+{
+    /*
+      Reads in a matrix in a standard csv format, like:
+      0        node_a        node_b        ...
+      node_a   coupling_ab   coupling_ba    ...
+      node_b   coupling_ba   coupling_bb   ...
+      ...
+    */
+    
+    HashMap<Integer,HashMap<Integer, Float>>  netty =  new HashMap<Integer,HashMap<Integer, Float>>();
+    String [] stringy = loadStrings(fn);
+    String [] header = split(stringy[0], ",");
+    
+    for(int i = 1; i< stringy.length; i++)
+    {
+        String [] line = split(stringy[i], ",");
+        Integer startIndex = int(header[i]);
+        for(int j = 1; j<line.length; j++)
+        {
+            float f = float(line[j]);
+            if(netty.get(startIndex)==null) netty.put(startIndex, new HashMap<Integer, Float>());
+            int endIndex = int(header[j]);
+            netty.get(startIndex).put(endIndex, f);
+        }
+    }
+    
+    return netty;
+    
+}
+
+HashMap<Integer, Node> loadNodes(String positionFile)
+{
+    HashMap<Integer, Node> nodey = new HashMap<Integer, Node>();
+    String [] stringy = loadStrings(positionFile);
+    
+    /*
+    This adheres the structure: id, name, lat, lon
+                                 0    1    2    3
+    */
+    
+    for(int i = 1; i<stringy.length; i++)
+    {
+        String[] line = split(stringy[i], ",");
+        int index = int(line[0]);
+        String name = line[1];
+        float lat = float(line[2]);
+        float lon = float(line[3]);
+        nodey.put(index, new Node(name, index, lon, lat));
+    }
+    
+    return nodey;
+}
+
+
+class Node
+{
+    String name;
+    int index;
+    float px, py;
+    float lat, lon;
+
+    
+    Node()
+    {}
+    
+    Node(String s, int i)
+    {
+        name  = s;
+        index = i;
+    }
+    
+    Node(String s, int i, float px, float py)
+    {
+        name  = s;
+        index = i;
+        this.lon = px;
+        this.lat = py;
+        
+        this.px = map(lon, lonStart, lonEnd, 0, width);
+        this.py = map(lat, latStart, latEnd, height, 0);
+    }
+    
+    void display()
+    {
+        noFill();
+        stroke(255);
+        ellipse(px, py, 5, 5);
+    }
+    
+    
+}

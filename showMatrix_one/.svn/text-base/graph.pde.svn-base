@@ -1,0 +1,98 @@
+//void net(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float maxi)
+//{
+//    //println("toDraw");
+//    pushMatrix();
+//        translate(xs, ys);
+//        for(int I:net.keySet())
+//        {
+//              Node snode = nodes.get(I);
+//              //println(I);
+//              for(int J:net.get(I).keySet())
+//              {
+//                    stroke(255, 255, 255, 255*net.get(I).get(J)/maxi);
+//                    line(snode.px/2, snode.py, nodes.get(J).px/2, nodes.get(J).py);
+//              }
+//        }
+//    popMatrix();
+//    //println("drawn");
+//}
+
+void net(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float maxi, float mini)
+{
+    //println("toDraw");
+    pushMatrix();
+        translate(xs, ys);
+        for(int I:net.keySet())
+        {
+              Node snode = nodes.get(I);
+              //println(I);
+              for(int J:net.get(I).keySet())
+              {
+                    if(net.get(I).get(J)>mini && net.get(I).get(J)<=maxi)
+                    {
+                        stroke(255, 255, 255, 50*(net.get(I).get(J)-mini)/(maxi-mini));
+                        line(snode.px, snode.py, nodes.get(J).px, nodes.get(J).py);
+                    }
+              }
+        }
+    popMatrix();
+    //println("drawn");
+}
+
+
+void dir(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float maxi, float mini)
+{
+    //println("toDraw");
+    noFill();
+    pushMatrix();
+        //translate(xs, ys);
+        for(int I:net.keySet())
+        {
+              Node snode = nodes.get(I);
+              //println(I);
+              for(int J:net.get(I).keySet())
+              {
+                    if(net.get(I).get(J)>mini && net.get(I).get(J)<=maxi)
+                    {
+                        float a  = atan2(nodes.get(J).py - snode.py, nodes.get(J).px - snode.px);
+                        float d = dist(snode.px, snode.py, nodes.get(J).px, nodes.get(J).py);
+                        
+                        pushMatrix();
+                          translate(snode.px, snode.py);
+                          rotate(a);
+                          stroke(255, 255, 255, 255*(net.get(I).get(J)-mini)/(maxi-mini));
+                          //stroke(255);
+                          float f = 10;
+                          bezier(0, 0, d, f, d, f/4, d, 0);
+                          //line(0,0, d, 0);
+                        popMatrix();
+                        //stroke(255, 0, 0, 1);
+                        //line(snode.px, snode.py, nodes.get(J).px, nodes.get(J).py);
+                    }
+              }
+        }
+    popMatrix();
+    //println("drawn");
+}
+
+//void net(HashMap<Integer, HashMap<Integer, Float>> net, int xs, int ys, float maxi, float mini, float maxForScale)
+//{
+//    //println("toDraw");
+//    pushMatrix();
+//        translate(xs, ys);
+//        for(int I:net.keySet())
+//        {
+//              Node snode = nodes.get(I);
+//              //println(I);
+//              for(int J:net.get(I).keySet())
+//              {
+//                    if(net.get(I).get(J)>mini && net.get(I).get(J)<=maxi)
+//                    {
+//                        stroke(255, 255, 255, 255*(net.get(I).get(J)/maxForScale));
+//                        line(snode.px/2, snode.py, nodes.get(J).px/2, nodes.get(J).py);
+//                    }
+//              }
+//        }
+//    popMatrix();
+//    //println("drawn");
+//}
